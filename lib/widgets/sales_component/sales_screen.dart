@@ -30,20 +30,22 @@ class _SalesScreenState extends State<SalesScreen> {
   @override
   Widget build(BuildContext context) {
     final ordersData = Provider.of<Orders>(context);
-    final totalOrders = ordersData.orders.length;
-    final totalRevenue = ordersData.orders.fold<double>(
+    final confirmedOrders = ordersData.confirmedOrders;
+
+    final totalOrders = confirmedOrders.length;
+    final totalRevenue = confirmedOrders.fold<double>(
         0, (previousValue, order) => previousValue + order.amount);
-    final totalSoldProducts = ordersData.orders.fold<int>(
+    final totalSoldProducts = confirmedOrders.fold<int>(
         0, (previousValue, order) => previousValue + order.products.length);
 
     final totalRevenueYear =
-        _calculateTotalRevenueForYear(ordersData.orders, DateTime.now().year);
+        _calculateTotalRevenueForYear(confirmedOrders, DateTime.now().year);
     final totalRevenueMonth = _calculateTotalRevenueForMonth(
-        ordersData.orders, DateTime.now().year, DateTime.now().month);
+        confirmedOrders, DateTime.now().year, DateTime.now().month);
     final totalRevenueWeek =
-        _calculateTotalRevenueForWeek(ordersData.orders, DateTime.now());
+        _calculateTotalRevenueForWeek(confirmedOrders, DateTime.now());
     final totalRevenueDay =
-        _calculateTotalRevenueForDay(ordersData.orders, DateTime.now());
+        _calculateTotalRevenueForDay(confirmedOrders, DateTime.now());
 
     return Scaffold(
       drawer: SideBarSupplier(),
@@ -60,7 +62,7 @@ class _SalesScreenState extends State<SalesScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Total Number of Orders: $totalOrders',
+                    'Total Number of Confirmed Orders: $totalOrders',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 20),

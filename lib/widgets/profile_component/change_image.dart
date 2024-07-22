@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart' as syspaths;
+// import 'package:path/path.dart' as path;
+// import 'package:path_provider/path_provider.dart' as syspaths;
 
 class ChangeImage extends StatefulWidget {
   const ChangeImage({super.key});
@@ -30,9 +30,9 @@ class _ChangeImageState extends State<ChangeImage> {
       _storedImage = File(imageFile.path);
     });
 
-    final appDir = await syspaths.getApplicationDocumentsDirectory();
-    final fileName = path.basename(imageFile.path);
-    final savedImage = await File(imageFile.path).copy('${appDir.path}/$fileName');
+    // final appDir = await syspaths.getApplicationDocumentsDirectory();
+    // final fileName = path.basename(imageFile.path);
+    // final savedImage = await File(imageFile.path).copy('${appDir.path}/$fileName');
   }
 
   @override

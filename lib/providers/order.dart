@@ -32,10 +32,16 @@ class Orders with ChangeNotifier {
   final String userType;
 
   Orders(
-      this.authToken, this.userId, this._orders, this.userName, this.userType);
+      this.authToken, this.userId, this.userName, this.userType, this._orders);
 
   List<OrdersItem> get orders {
     return [..._orders];
+  }
+
+  @override
+  void dispose() {
+    debugPrint('Orders provider disposed');
+    super.dispose();
   }
 
   Future fetchAndSetOrders() async {
@@ -119,8 +125,8 @@ class Orders with ChangeNotifier {
     notifyListeners();
   }
 
-  Future addOrder(
-      List<CartItem> cartProducts, double total, String resturan, String restaurantId) async {
+  Future addOrder(List<CartItem> cartProducts, double total, String resturan,
+      String restaurantId) async {
     final url =
         'https://order-up-e0a41-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken';
     final timeStamp = DateTime.now();
@@ -214,9 +220,34 @@ class Orders with ChangeNotifier {
         _orders.every((order) => order.status == 'Completed');
   }
 
-  void cancelOrder(String orderId) {
-    _orders.removeWhere((order) => order.id == orderId);
-    notifyListeners();
+  Future cancelOrder(String orderId) async {
+    OrdersItem? targetOrder;
+    String? restaurantId;
+
+    for (var order in _orders) {
+      if (order.id == orderId) {
+        targetOrder = order;
+        restaurantId = order.resturantId;
+        break;
+      }
+    }
+
+    if (targetOrder != null && restaurantId != null) {
+      final url =
+          'https://order-up-e0a41-default-rtdb.firebaseio.com/orders/$restaurantId/$orderId.json?auth=$authToken';
+      try {
+        final response = await http.delete(
+          Uri.parse(url),
+        );
+        if (response.statusCode >= 400) {
+          throw HttpException('Could not delete order.');
+        }
+        _orders.remove(targetOrder);
+        notifyListeners();
+      } catch (error) {
+        rethrow;
+      }
+    }
   }
 
   List<OrdersItem> get confirmedOrders {
