@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,7 +32,6 @@ class Suppliers with ChangeNotifier {
   List<Supplier> get suppliers {
     return [..._suppliers];
   }
-  
 
   Future fetchAndSetSuppliers() async {
     const url =
@@ -53,7 +53,9 @@ class Suppliers with ChangeNotifier {
               password: suppData['password'],
               phoneNumber: suppData['phoneNumber'],
               category: suppData['category'],
-              rate: suppData['rate'],
+              rate: suppData['rate'] is String
+                  ? double.tryParse(suppData['rate']) ?? 0.0
+                  : suppData['rate'] ?? 0.0,
             ));
           });
         }
@@ -63,7 +65,7 @@ class Suppliers with ChangeNotifier {
         // print('Error fetching data: ${response.statusCode}');
       }
     } catch (error) {
-      // print('Error: $error');
+      print('Error: $error');
       rethrow;
     }
   }

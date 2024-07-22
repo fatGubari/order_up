@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart' as syspaths;
+// import 'package:path/path.dart' as path;
+// import 'package:path_provider/path_provider.dart' as syspaths;
 
 class ChangeImage extends StatefulWidget {
   const ChangeImage({super.key});
@@ -15,25 +15,25 @@ class ChangeImage extends StatefulWidget {
 class _ChangeImageState extends State<ChangeImage> {
   File? _storedImage;
 
-  Future<void> _takePicture() async {
-    final picker = ImagePicker();
-    final imageFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 600,
-    );
+  // Future<void> _takePicture() async {
+  //   final picker = ImagePicker();
+  //   final imageFile = await picker.pickImage(
+  //     source: ImageSource.gallery,
+  //     maxWidth: 600,
+  //   );
 
-    if (imageFile == null) {
-      return;
-    }
+  //   if (imageFile == null) {
+  //     return;
+  //   }
 
-    setState(() {
-      _storedImage = File(imageFile.path);
-    });
+  //   setState(() {
+  //     _storedImage = File(imageFile.path);
+  //   });
 
-    final appDir = await syspaths.getApplicationDocumentsDirectory();
-    final fileName = path.basename(imageFile.path);
-    final savedImage = await File(imageFile.path).copy('${appDir.path}/$fileName');
-  }
+  //   final appDir = await syspaths.getApplicationDocumentsDirectory();
+  //   final fileName = path.basename(imageFile.path);
+  //   final savedImage = await File(imageFile.path).copy('${appDir.path}/$fileName');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,8 @@ class _ChangeImageState extends State<ChangeImage> {
       children: [
         CircleAvatar(
           radius: 50,
-          backgroundImage: _storedImage != null ? FileImage(_storedImage!) : null,
+          backgroundImage:
+              _storedImage != null ? FileImage(_storedImage!) : null,
           child: _storedImage == null
               ? Icon(
                   Icons.person,

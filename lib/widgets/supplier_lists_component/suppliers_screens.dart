@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:order_up/widgets/cart_component/cart_button.dart';
 import 'package:order_up/providers/products.dart';
 import 'package:order_up/providers/suppliers.dart';
+import 'package:order_up/widgets/chat_component/chat_screen.dart';
 import 'package:order_up/widgets/product_component/product_card.dart';
 import 'package:provider/provider.dart';
 
@@ -18,13 +19,29 @@ class _SuppliersScreensState extends State<SuppliersScreens> {
   late Future _productsFuture;
 
   Future _obtainProductsFuture() {
-    return Provider.of<Products>(context, listen: false).fetchAndSetProductsForRestaurant();
+    return Provider.of<Products>(context, listen: false)
+        .fetchAndSetProductsForRestaurant();
   }
 
   @override
   void initState() {
     _productsFuture = _obtainProductsFuture();
     super.initState();
+  }
+
+  void chatSupplier(
+    BuildContext context,
+    String name,
+    String id,
+    String image,
+  ) {
+    Navigator.of(context).pushNamed(
+      // SuppliersScreens.routeName,
+      ChatScreen.routeName,
+      arguments: {'id': id, 'imageURL': image, 'name': name},
+    )
+        // .whenComplete(() => Navigator.pop(context)).then((value) => Navigator.pop(context))
+        ;
   }
 
   @override
@@ -77,7 +94,13 @@ class _SuppliersScreensState extends State<SuppliersScreens> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                    onPressed: () {}, child: Icon(Icons.message_outlined)),
+                    onPressed: () => chatSupplier(
+                          context,
+                          routeArgs.name,
+                          routeArgs.id,
+                          routeArgs.image,
+                        ),
+                    child: Icon(Icons.message_outlined)),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -114,7 +137,7 @@ class _SuppliersScreensState extends State<SuppliersScreens> {
                 final merchandise = productData.products
                     .where((product) => product.supplier == routeArgs.name)
                     .toList();
-                    // print(productData.products.first);
+                // print(productData.products.first);
                 print('Filtered Merchandise: $merchandise');
                 if (merchandise.isEmpty) {
                   return Center(

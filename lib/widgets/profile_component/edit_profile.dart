@@ -1,7 +1,10 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:order_up/providers/auth.dart';
-import 'package:order_up/widgets/profile_component/change_image.dart';
 import 'package:order_up/widgets/profile_component/change_location.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +31,7 @@ class EditProfileState extends State<EditProfile> {
   final TextEditingController phoneNumberController = TextEditingController();
   String selectedLocation = 'New York, USA';
   LatLng? selectedLocationLatLng;
+  File? _storedImage;
 
   @override
   void initState() {
@@ -40,15 +44,74 @@ class EditProfileState extends State<EditProfile> {
         Provider.of<Auth>(context, listen: false).profileData!.phoneNumber;
   }
 
+  Future<void> _saveChanges(BuildContext context) async {
+    // final String location = locationController.text;
+    final String newName = nameController.text.trim();
+    final String newEmail = emailController.text.trim();
+    final String newPhoneNumber = phoneNumberController.text.trim();
+    String? newImage = imageURL;
+    final authProvider = Provider.of<Auth>(context, listen: false);
+    try {
+      // final String uid = FirebaseAuth.instance.currentUser!.uid;
+      if (_storedImage != null) {
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('users_images')
+            .child(authProvider.userId + '.jpg');
+        await ref.putFile(_storedImage!).whenComplete(() => print('completed'));
+        newImage = await ref.getDownloadURL();
+      } else {
+        // newImage = appUser.imageUrl;
+      }
+      //
+    } catch (e) {
+      print('addUser error: ${e}');
+    }
+
+    if (!_isEmailValid(newEmail)) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Invalid email address.'),
+        duration: Duration(seconds: 2),
+      ));
+      return;
+    }
+
+    if (!_isPhoneNumberValid(newPhoneNumber)) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Invalid phone number.'),
+        duration: Duration(seconds: 2),
+      ));
+      return;
+    }
+
+    // Update user profile data in your Auth provider or backend service
+
+    final String? userType = authProvider.userType;
+    authProvider.updateUserProfile(
+      newName: newName,
+      newEmail: newEmail,
+      newPhoneNumber: newPhoneNumber,
+      userType: userType,
+      newImage: newImage,
+    );
+
+    Navigator.of(context).pop();
+  }
+
+  late String? imageURL;
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<Auth>(context).profileData;
+    imageURL = authProvider?.image;
+
     return AlertDialog(
       title: Text('Edit Profile'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ChangeImage(),
+            // ChangeImage(),
+            _imageInput(),
             SizedBox(height: 10),
             TextField(
               controller: nameController,
@@ -90,39 +153,57 @@ class EditProfileState extends State<EditProfile> {
     );
   }
 
-  void _saveChanges(BuildContext context) {
-    // final String location = locationController.text;
-    final String newName = nameController.text.trim();
-    final String newEmail = emailController.text.trim();
-    final String newPhoneNumber = phoneNumberController.text.trim();
+  void _pickImage() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-    if (!_isEmailValid(newEmail)) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Invalid email address.'),
-        duration: Duration(seconds: 2),
-      ));
-      return;
+    if (pickedImage != null) {
+      setState(() {
+        _storedImage = File(pickedImage.path);
+      });
     }
+  }
 
-    if (!_isPhoneNumberValid(newPhoneNumber)) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Invalid phone number.'),
-        duration: Duration(seconds: 2),
-      ));
-      return;
+  Widget _imageInput() {
+    ImageProvider<Object>? image = Image(image: AssetImage('')).image;
+    if (_storedImage != null) {
+      image = FileImage(_storedImage!);
+    } else if (imageURL != null) {
+      image = NetworkImage(imageURL!);
+    } else {
+      image = null;
     }
-
-    // Update user profile data in your Auth provider or backend service
-    final authProvider = Provider.of<Auth>(context, listen: false);
-    final String? userType = authProvider.userType;
-    authProvider.updateUserProfile(
-      newName: newName,
-      newEmail: newEmail,
-      newPhoneNumber: newPhoneNumber,
-      userType: userType,
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        CircleAvatar(
+          radius: 50,
+          backgroundImage: image,
+          child: image == null
+              ? Icon(
+                  Icons.person,
+                  size: 50,
+                )
+              : null,
+        ),
+        Positioned(
+          right: 0,
+          bottom: 0,
+          child: GestureDetector(
+            onTap: _pickImage,
+            child: CircleAvatar(
+              backgroundColor: Colors.blue,
+              radius: 15,
+              child: Icon(
+                image == null ? Icons.add : Icons.edit,
+                size: 19,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
-
-    Navigator.of(context).pop();
   }
 
   bool _isEmailValid(String email) {
