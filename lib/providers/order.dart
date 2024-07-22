@@ -42,12 +42,6 @@ class Orders with ChangeNotifier {
     return _orders.where((order) => order.status == 'In Progress').toList();
   }
 
-  @override
-  void dispose() {
-    debugPrint('Orders provider disposed');
-    super.dispose();
-  }
-
   Future fetchAndSetOrders() async {
     final List<OrdersItem> loadedOrders = [];
 

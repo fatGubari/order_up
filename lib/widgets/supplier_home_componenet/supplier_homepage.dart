@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_up/items/side_bar_supplier.dart';
-import 'package:order_up/providers/order.dart';
-// import 'package:order_up/providers/order.dart';
 import 'package:order_up/widgets/supplier_home_componenet/all_orders.dart';
 import 'package:order_up/widgets/supplier_home_componenet/inprogress_orders.dart';
-import 'package:provider/provider.dart';
-// import 'package:order_up/widgets/supplier_home_componenet/order_card_supplier.dart';
-// import 'package:provider/provider.dart';
 
 class SupplierHomepage extends StatefulWidget {
   const SupplierHomepage({super.key});
@@ -19,10 +14,6 @@ class SupplierHomepage extends StatefulWidget {
 class _SupplierHomepageState extends State<SupplierHomepage> {
   @override
   Widget build(BuildContext context) {
-    final ordersData = Provider.of<Orders>(context);
-    // final orders = ordersData.orders
-    //     .where((order) => order.status == 'In Progress')
-    //     .toList();
     return Scaffold(
       drawer: SideBarSupplier(),
       appBar: AppBar(
