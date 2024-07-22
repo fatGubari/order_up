@@ -8,11 +8,12 @@ class SupplierCard extends StatelessWidget {
 
   const SupplierCard({super.key, required this.supplier});
 
-    // use this function to navigat throw the listView and send the object of each
-    void selectSupplier(BuildContext context){
-      // 3
+  // use this function to navigat throw the listView and send the object of each
+  void selectSupplier(BuildContext context) {
+    // 3
     Navigator.of(context).pushNamed(
-      SuppliersScreens.routeName, arguments: supplier,
+      SuppliersScreens.routeName,
+      arguments: supplier,
     );
   }
 
@@ -32,6 +33,13 @@ class SupplierCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   height: 100,
                   width: 100,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return Icon(
+                      Icons.account_circle,
+                      size: 50,
+                    );
+                  },
                 ),
               ),
             ),

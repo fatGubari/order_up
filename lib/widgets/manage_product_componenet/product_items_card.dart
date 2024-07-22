@@ -41,6 +41,13 @@ class ProductItemsCard extends StatelessWidget {
           child: Image.network(
             product.image[0],
             fit: BoxFit.cover,
+            errorBuilder: (BuildContext context, Object exception,
+                StackTrace? stackTrace) {
+              return Icon(
+                Icons.production_quantity_limits,
+                size: 50,
+              );
+            },
           ),
         ),
       ),
