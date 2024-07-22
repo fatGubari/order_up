@@ -32,7 +32,12 @@ class Orders with ChangeNotifier {
   final String userType;
 
   Orders(
-      this.authToken, this.userId, this.userName, this.userType, this._orders);
+    this.authToken,
+    this.userId,
+    this.userName,
+    this.userType,
+    this._orders,
+  );
 
   List<OrdersItem> get orders {
     return [..._orders];
