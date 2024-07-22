@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:order_up/items/side_bar_supplier.dart';
 import 'package:order_up/providers/order.dart';
+// import 'package:order_up/providers/order.dart';
 import 'package:order_up/widgets/supplier_home_componenet/all_orders.dart';
-import 'package:order_up/widgets/supplier_home_componenet/order_card_supplier.dart';
+import 'package:order_up/widgets/supplier_home_componenet/inprogress_orders.dart';
 import 'package:provider/provider.dart';
+// import 'package:order_up/widgets/supplier_home_componenet/order_card_supplier.dart';
+// import 'package:provider/provider.dart';
 
 class SupplierHomepage extends StatefulWidget {
   const SupplierHomepage({super.key});
@@ -14,24 +17,12 @@ class SupplierHomepage extends StatefulWidget {
 }
 
 class _SupplierHomepageState extends State<SupplierHomepage> {
-  late Future _ordersFuture;
-
-  Future _obtainOrdersFuture() {
-    return Provider.of<Orders>(context, listen: false).fetchAndSetOrders();
-  }
-
-  @override
-  void initState() {
-    _ordersFuture = _obtainOrdersFuture();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final ordersData = Provider.of<Orders>(context);
-    final orders = ordersData.orders
-        .where((order) => order.status == 'In Progress')
-        .toList();
+    // final orders = ordersData.orders
+    //     .where((order) => order.status == 'In Progress')
+    //     .toList();
     return Scaffold(
       drawer: SideBarSupplier(),
       appBar: AppBar(
@@ -40,35 +31,52 @@ class _SupplierHomepageState extends State<SupplierHomepage> {
         title: Text("Order UP",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
       ),
-      body: ordersData.orders.isEmpty || ordersData.areAllOrdersCompleted()
-          ? Center(
-              child: Text('No Orders Yet',
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)))
-          : FutureBuilder(
-              future: _ordersFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  if (snapshot.error != null) {
-                    return Center(
-                      child: Text(snapshot.error.toString()),
-                    );
-                  } else {
-                    return Consumer<Orders>(
-                        builder: (ctx, orderData, child) => ListView.builder(
-                              itemCount: orders.length,
-                              itemBuilder: (ctx, i) =>
-                                  OrderCardSupplier(order: orders[i], index: i),
-                            ));
-                  }
-                }
-              }),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Icon(
+                Icons.check_box_outlined,
+                size: 50,
+              ),
+              Icon(
+                Icons.disabled_by_default_outlined,
+                size: 50,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Orders Need to confirm',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Once you Confirm the Order the Restaurnt will be Notify',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(InprogressOrders.routeName),
+              child: Text('Confirm the orders'))
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).pushNamed(AllOrders.routeName),
         tooltip: 'Checked Orders',
