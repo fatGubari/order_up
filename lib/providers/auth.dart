@@ -253,6 +253,7 @@ class Auth with ChangeNotifier {
     required String newName,
     required String newEmail,
     required String newPhoneNumber,
+    required String? newImage,
     required String? userType,
   }) async {
     // Determine the correct endpoint based on userType
@@ -273,7 +274,7 @@ class Auth with ChangeNotifier {
         'email': newEmail,
         'phoneNumber': newPhoneNumber,
         'location': profileData!.location,
-        'image': profileData!.image,
+        'image': newImage ?? profileData!.image,
         'password': profileData!.password
       };
     } else {
@@ -282,7 +283,7 @@ class Auth with ChangeNotifier {
         'email': newEmail,
         'phoneNumber': newPhoneNumber,
         'location': profileData!.location,
-        'image': profileData!.image,
+        'image': newImage ?? profileData!.image,
         'password': profileData!.password,
         'rate': profileData!.rate,
         'category': profileData!.category,
@@ -299,7 +300,7 @@ class Auth with ChangeNotifier {
       profileData = ProfileData(
         id: userId,
         name: newName,
-        image: profileData?.image ?? '',
+        image: newImage ?? profileData?.image ?? '',
         email: newEmail,
         password: profileData?.password ?? '',
         phoneNumber: newPhoneNumber,

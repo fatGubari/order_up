@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,7 +42,7 @@ class Suppliers with ChangeNotifier {
         // print('Error fetching data: ${response.statusCode}');
       }
     } catch (error) {
-      // print('Error: $error');
+      print('Error: $error');
       rethrow;
     }
   }

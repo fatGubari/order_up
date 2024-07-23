@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_up/providers/suppliers.dart';
+import 'package:order_up/widgets/chat_component/chat_screen.dart';
 import 'package:order_up/widgets/supplier_lists_component/suppliers_screens.dart';
-// import 'package:order_up/widgets/suppliers_screens.dart';
 
 class SupplierCard extends StatelessWidget {
   final Supplier supplier;
@@ -14,6 +14,18 @@ class SupplierCard extends StatelessWidget {
     Navigator.of(context).pushNamed(
       SuppliersScreens.routeName,
       arguments: supplier,
+    );
+  }
+
+  void chatSupplier(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      // SuppliersScreens.routeName,
+      ChatScreen.routeName,
+      arguments: {
+        'id': supplier.id,
+        'imageURL': supplier.image,
+        'name': supplier.name
+      },
     );
   }
 
@@ -50,7 +62,7 @@ class SupplierCard extends StatelessWidget {
             subtitle: Text(supplier.location),
             trailing: IconButton(
               icon: Icon(Icons.message_outlined),
-              onPressed: () {},
+              onPressed: () => chatSupplier(context),
               color: Theme.of(context).colorScheme.inversePrimary,
             )),
       ),

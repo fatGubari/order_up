@@ -53,10 +53,13 @@ class CartItemCard extends StatelessWidget {
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: CircleAvatar(
+                radius: 30,
                 child: FittedBox(
                     child: Image.network(
                   cartItem.image,
                   fit: BoxFit.cover,
+                  height: 100,
+                  width: 100,
                 )),
               ),
             ),

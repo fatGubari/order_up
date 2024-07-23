@@ -18,6 +18,7 @@ class ProfileScreen extends StatelessWidget {
     final String? name = authProvider?.name;
     final String? email = authProvider?.email;
     final String? location = authProvider?.location;
+    final String? imageURL = authProvider?.image;
     final String? phoneNumber = authProvider?.phoneNumber;
     final String? userType = authProviderUserType.userType;
 
@@ -35,9 +36,10 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   CircleAvatar(
-                    radius: 50,
-                    backgroundImage:
-                        NetworkImage('https://via.placeholder.com/150'),
+                    radius: 60,
+                    backgroundImage: imageURL == null || imageURL == ''
+                        ? NetworkImage('https://via.placeholder.com/150')
+                        : NetworkImage(imageURL),
                   ),
                   SizedBox(height: 20),
                   Text(

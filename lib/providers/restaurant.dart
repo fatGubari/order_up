@@ -33,8 +33,7 @@ class Restaurants with ChangeNotifier {
         }
         _restaurants = loadedRestaurants;
         notifyListeners();
-      } else {
-      }
+      } else {}
     } catch (error) {
       rethrow;
     }

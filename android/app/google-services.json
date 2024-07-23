@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "718240488850",
+    "firebase_url": "https://order-up-e0a41-default-rtdb.firebaseio.com",
+    "project_id": "order-up-e0a41",
+    "storage_bucket": "order-up-e0a41.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718240488850:android:4e5d82bb0faf5a1b10b54b",
+        "android_client_info": {
+          "package_name": "com.example.order_up"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC37h8M9slRgtVs8KMwFUwmv3jQ7uAi-9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

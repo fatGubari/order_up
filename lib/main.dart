@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:order_up/providers/auth.dart';
 import 'package:order_up/providers/cart.dart';
+import 'package:order_up/providers/chatting_provider.dart';
 import 'package:order_up/providers/order.dart';
 import 'package:order_up/providers/products.dart';
 import 'package:order_up/providers/suppliers.dart';
+import 'package:order_up/widgets/chat_component/chat_screen.dart';
+import 'package:order_up/widgets/chat_component/chats_list_screen.dart';
 import 'package:order_up/widgets/home_component/ordering_history.dart';
 import 'package:order_up/widgets/home_component/resturant_mainpage_screen.dart';
 import 'package:order_up/items/search_for_supplier.dart';
@@ -20,9 +23,19 @@ import 'package:order_up/widgets/supplier_home_componenet/inprogress_orders.dart
 import 'package:order_up/widgets/supplier_home_componenet/supplier_homepage.dart';
 import 'package:order_up/widgets/supplier_lists_component/suppliers_screens.dart';
 import 'package:order_up/widgets/product_component/product_details.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+// void main() => runApp(MyApp());
+
+Future main() async {
+  // WidgetsBinding widgetsBinding =
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
+  return runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -57,6 +70,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => Suppliers(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ChattingProvider(),
           ),
         ],
         child: Consumer<Auth>(
@@ -97,6 +113,8 @@ class MyApp extends StatelessWidget {
               AddEditProduct.routeName: (context) => AddEditProduct(),
               SalesScreen.routeName: (context) => SalesScreen(),
               AllOrders.routeName: (context) => AllOrders(),
+              ChatScreen.routeName: (context) => ChatScreen(),
+              ChatsListScreen.routeName: (context) => ChatsListScreen(),
               InprogressOrders.routeName: (context) => InprogressOrders(),
             },
             onUnknownRoute: (settings) =>
