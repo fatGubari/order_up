@@ -85,10 +85,10 @@ flutter:
   assets:
       - assets/images/shopping_cart.png
       - assets/images/imageOffline.png
-      - assets/images/orange_wallpaper.jpg
-      - assets/images/page_1.jpg
-      - assets/images/page_2.jpg
-      - assets/images/page_3.jpg
+      - assets/images/drawerbg.jpg
+      - assets/images/slide1.jpg
+      - assets/images/slide2.jpg
+      - assets/images/slide3.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

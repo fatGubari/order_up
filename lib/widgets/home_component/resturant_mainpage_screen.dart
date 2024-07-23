@@ -58,7 +58,9 @@ class _ResturantMainPageScreenState extends State<ResturantMainPageScreen> {
         tooltip: 'Ordering Histroy',
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
+          
         ),
+        backgroundColor: Theme.of(context).iconTheme.color,
         child: Icon(Icons.calendar_month_outlined),
       ),
     );

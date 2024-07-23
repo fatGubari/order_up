@@ -53,19 +53,22 @@ class _SupplierHomepageState extends State<SupplierHomepage> {
           ),
           Text(
             'Once you Confirm the Order the Restaurnt will be Notify',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           SizedBox(
             height: 20,
           ),
           ElevatedButton(
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(InprogressOrders.routeName),
-              child: Text('Confirm the orders'))
+            onPressed: () =>
+                Navigator.of(context).pushNamed(InprogressOrders.routeName),
+            child: Text('View Orders'),
+            style: ButtonStyle(
+              backgroundColor:
+                  WidgetStatePropertyAll(Theme.of(context).iconTheme.color),
+              foregroundColor: WidgetStatePropertyAll(Colors.black),
+            ),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(

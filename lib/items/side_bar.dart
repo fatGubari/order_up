@@ -109,12 +109,12 @@ class _SideBarState extends State<SideBar> {
               radius: 60,
               backgroundImage: imageURL == null || imageURL == ''
                   ? NetworkImage('https://via.placeholder.com/150')
-                  : NetworkImage(imageURL!),
+                  : NetworkImage(imageURL),
             ),
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 152, 223, 167),
               image: DecorationImage(
-                  image: AssetImage('assets/images/orange_wallpaper.jpg'),
+                  image: AssetImage('assets/images/drawerbg.jpg'),
                   fit: BoxFit.cover,
                   opacity: 0.6),
             ),

@@ -33,6 +33,7 @@ void showProductDetails(BuildContext context, Product product) {
                     ),
                     IconButton(
                       icon: Icon(Icons.close),
+                      color: Colors.black,
                       onPressed: () {
                         Navigator.of(context).pop();
                       },

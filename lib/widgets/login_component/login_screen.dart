@@ -17,14 +17,15 @@ class LoginScreen extends StatelessWidget {
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
-        children:[
+        children: [
           // page background
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(247, 119, 0, 1).withOpacity(0.5),
-                  Color.fromRGBO(235, 197, 158, 1).withOpacity(0.9),
+                colors: const [
+                  Color.fromARGB(255, 245, 239, 223),
+                  // Color.fromARGB(255, 236, 226, 198),
+                  Color.fromARGB(255, 199, 175, 91),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -39,7 +40,7 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children:[
+                children: [
                   Flexible(
                     child: Container(
                       margin: EdgeInsets.only(bottom: 20.0),

@@ -17,7 +17,7 @@ class ChattingProvider with ChangeNotifier {
     return [..._chatsList];
   }
 
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> sendMessage({
     required String? chatId,
@@ -52,7 +52,7 @@ class ChattingProvider with ChangeNotifier {
           .snapshots()
           .listen((snapshot) {
         List<ChatMessage> messages = snapshot.docs.map((doc) {
-          var data = doc.data() as Map<String, dynamic>;
+          var data = doc.data();
           return ChatMessage(
             id: doc.id,
             text: data['text'] ?? '',
@@ -68,7 +68,7 @@ class ChattingProvider with ChangeNotifier {
         }
       });
     } catch (e) {
-      print('_chatMessages error: $e');
+      // print('_chatMessages error: $e');
     }
   }
 
@@ -170,7 +170,7 @@ class ChattingProvider with ChangeNotifier {
         },
       );
     } catch (error) {
-      print('chats error: $error');
+      // print('chats error: $error');
     }
   }
 
@@ -209,7 +209,7 @@ class ChattingProvider with ChangeNotifier {
   }
 
   Future<ChatUser?> getUserNameAndImage({required String uId}) async {
-    print('uId: $uId');
+    // print('uId: $uId');
     FirebaseDatabase database = FirebaseDatabase.instance;
     DatabaseReference ref = database.ref('restaurants/$uId');
     DatabaseReference ref2 = database.ref('suppliers/$uId');

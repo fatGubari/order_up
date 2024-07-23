@@ -116,7 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
             Text(
               reciverData['name']!,
               style: TextStyle(
-                color: Theme.of(context).iconTheme.color,
+                color: Colors.black,
               ),
               textAlign: TextAlign.center,
             ),

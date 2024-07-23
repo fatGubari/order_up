@@ -61,19 +61,19 @@ class _HomeSlidesState extends State<HomeSlides> {
           Container(
             color: Color.fromARGB(255, 198, 218, 235),
             child: Center(
-              child: Image.asset('assets/images/page_1.jpg', fit: BoxFit.cover,),
+              child: Image.asset('assets/images/slide1.jpg', fit: BoxFit.cover, width: double.infinity,),
             ),
           ),
           Container(
             color: Colors.orange,
             child: Center(
-                       child: Image.asset('assets/images/page_2.jpg', fit: BoxFit.cover,),
+                       child: Image.asset('assets/images/slide2.jpg', fit: BoxFit.cover,width: double.infinity),
             ),
           ),
           Container(
             color: const Color.fromARGB(255, 224, 107, 99),
             child: Center(
-             child: Image.asset('assets/images/page_3.jpg', fit: BoxFit.cover,),
+             child: Image.asset('assets/images/slide3.jpg', fit: BoxFit.cover,width: double.infinity),
             ),
           ),
         ],

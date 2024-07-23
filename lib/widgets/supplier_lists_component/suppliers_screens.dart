@@ -138,7 +138,7 @@ class _SuppliersScreensState extends State<SuppliersScreens> {
                     .where((product) => product.supplier == routeArgs.name)
                     .toList();
                 // print(productData.products.first);
-                print('Filtered Merchandise: $merchandise');
+                // print('Filtered Merchandise: $merchandise');
                 if (merchandise.isEmpty) {
                   return Center(
                       child: Text('No products found for this supplier.'));
@@ -157,7 +157,7 @@ class _SuppliersScreensState extends State<SuppliersScreens> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () => showSupplierInfo(context),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).iconTheme.color,
         foregroundColor: Colors.black,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),

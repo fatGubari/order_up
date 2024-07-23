@@ -63,7 +63,7 @@ class SupplierCard extends StatelessWidget {
             trailing: IconButton(
               icon: Icon(Icons.message_outlined),
               onPressed: () => chatSupplier(context),
-              color: Theme.of(context).colorScheme.inversePrimary,
+              color: Theme.of(context).iconTheme.color,
             )),
       ),
     );

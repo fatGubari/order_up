@@ -70,7 +70,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           style: ButtonStyle(
             padding: WidgetStatePropertyAll(EdgeInsets.all(12)),
             backgroundColor: WidgetStatePropertyAll(
-                Theme.of(context).colorScheme.inversePrimary),
+                Theme.of(context).iconTheme.color),
             foregroundColor: WidgetStatePropertyAll(Colors.black),
           ),
           child: const Text('Add to Cart'),

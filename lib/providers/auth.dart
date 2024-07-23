@@ -136,11 +136,11 @@ class Auth with ChangeNotifier {
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
 
-        print('Checking suppliers...');
+        // print('Checking suppliers...');
         for (var suppData in extractedData.entries) {
           if (suppData.value['email'] == email) {
             _userType = 'supplier';
-            print(userType);
+            // print(userType);
             profileData = ProfileData(
               id: suppData.key,
               name: suppData.value['name'],
@@ -153,7 +153,7 @@ class Auth with ChangeNotifier {
               rate: suppData.value['rate'].toString(),
             );
             _userName = profileData?.name;
-            print(_userName);
+            // print(_userName);
             await _authenticate(email, password, 'signInWithPassword');
             notifyListeners();
             return;

@@ -72,6 +72,11 @@ class ProfileScreen extends StatelessWidget {
                       // Functionality to change password
                       ChangePasswordDialog().show(context);
                     },
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                          Theme.of(context).iconTheme.color),
+                      foregroundColor: WidgetStatePropertyAll(Colors.black),
+                    ),
                     child: Text('Change Password'),
                   ),
                   SizedBox(height: 20),
@@ -80,6 +85,11 @@ class ProfileScreen extends StatelessWidget {
                       // Functionality to edit profile
                       EditProfileDialog().show(context);
                     },
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                          Theme.of(context).iconTheme.color),
+                      foregroundColor: WidgetStatePropertyAll(Colors.black),
+                    ),
                     child: Text('Edit Profile'),
                   ),
                 ],

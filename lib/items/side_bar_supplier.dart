@@ -47,7 +47,7 @@ class _SideBarSupplierState extends State<SideBarSupplier> {
     final String? imageURL = authProvider?.image;
     _chatsList = chatProvider.chatsList;
 
-    print('getNumberOfUnseenChats: ${getNumberOfUnseenChats(_chatsList)}');
+    // print('getNumberOfUnseenChats: ${getNumberOfUnseenChats(_chatsList)}');
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -83,7 +83,7 @@ class _SideBarSupplierState extends State<SideBarSupplier> {
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 152, 223, 167),
               image: DecorationImage(
-                  image: AssetImage('assets/images/orange_wallpaper.jpg'),
+                  image: AssetImage('assets/images/drawerbg.jpg'),
                   fit: BoxFit.cover,
                   opacity: 0.6),
             ),
