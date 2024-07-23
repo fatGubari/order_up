@@ -41,7 +41,7 @@ class _ListOfSuppliersState extends State<ListOfSuppliers> {
           } else {
             if (snapshot.error != null) {
               return Center(
-                child: Text('An error occurred!'),
+                child: Text(snapshot.error.toString()),
               );
             } else {
               return Consumer<Suppliers>(

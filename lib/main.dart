@@ -19,6 +19,7 @@ import 'package:order_up/widgets/orders_component/order_progres.dart';
 import 'package:order_up/widgets/profile_component/profile_screen.dart';
 import 'package:order_up/widgets/sales_component/sales_screen.dart';
 import 'package:order_up/widgets/supplier_home_componenet/all_orders.dart';
+import 'package:order_up/widgets/supplier_home_componenet/inprogress_orders.dart';
 import 'package:order_up/widgets/supplier_home_componenet/supplier_homepage.dart';
 import 'package:order_up/widgets/supplier_lists_component/suppliers_screens.dart';
 import 'package:order_up/widgets/product_component/product_details.dart';
@@ -46,16 +47,6 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => Auth(),
           ),
-          ChangeNotifierProxyProvider<Auth, Orders>(
-            create: (context) => Orders('', '', [], '', ''),
-            update: (context, auth, previousOrders) => Orders(
-              auth.token ?? '',
-              auth.userId,
-              previousOrders == null ? [] : previousOrders.orders,
-              auth.userName ?? '',
-              auth.userType ?? '',
-            ),
-          ),
           ChangeNotifierProvider(
             create: (context) => Cart(),
           ),
@@ -65,6 +56,16 @@ class MyApp extends StatelessWidget {
               auth.token ?? '',
               auth.userId,
               previousProducts == null ? [] : previousProducts.products,
+            ),
+          ),
+          ChangeNotifierProxyProvider<Auth, Orders>(
+            create: (context) => Orders('', '', '', '', []),
+            update: (context, auth, previousOrders) => Orders(
+              auth.token ?? '',
+              auth.userId,
+              auth.userName ?? '',
+              auth.userType ?? '',
+              previousOrders == null ? [] : previousOrders.orders,
             ),
           ),
           ChangeNotifierProvider(
@@ -114,6 +115,7 @@ class MyApp extends StatelessWidget {
               AllOrders.routeName: (context) => AllOrders(),
               ChatScreen.routeName: (context) => ChatScreen(),
               ChatsListScreen.routeName: (context) => ChatsListScreen(),
+              InprogressOrders.routeName: (context) => InprogressOrders(),
             },
             onUnknownRoute: (settings) =>
                 MaterialPageRoute(builder: (context) => LoginScreen()),

@@ -45,6 +45,13 @@ class SupplierCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   height: 100,
                   width: 100,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return Icon(
+                      Icons.account_circle,
+                      size: 50,
+                    );
+                  },
                 ),
               ),
             ),

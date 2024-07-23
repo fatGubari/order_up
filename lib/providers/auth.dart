@@ -153,6 +153,7 @@ class Auth with ChangeNotifier {
               rate: suppData.value['rate'].toString(),
             );
             _userName = profileData?.name;
+            print(_userName);
             await _authenticate(email, password, 'signInWithPassword');
             notifyListeners();
             return;

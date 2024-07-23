@@ -4,30 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Suppliers with ChangeNotifier {
-  List<Supplier> _suppliers = [
-    Supplier(
-      id: '4',
-      name: 'Supplier4',
-      location: 'Address4',
-      image: 'assets/images/imageOffline.png',
-      email: "email@gmail.com",
-      password: 'Abcd1234',
-      phoneNumber: '77777777',
-      category: "farmer",
-      rate: 7.5,
-    ),
-    Supplier(
-      id: '5',
-      name: 'Supplier5',
-      location: 'Address5',
-      image: 'assets/images/imageOffline.png',
-      email: "email@gmail.com",
-      password: 'Abcd1234',
-      phoneNumber: '77777777',
-      category: "farmer",
-      rate: 7.5,
-    ),
-  ];
+  List<Supplier> _suppliers = [];
 
   List<Supplier> get suppliers {
     return [..._suppliers];
@@ -53,9 +30,9 @@ class Suppliers with ChangeNotifier {
               password: suppData['password'],
               phoneNumber: suppData['phoneNumber'],
               category: suppData['category'],
-              rate: suppData['rate'] is String
-                  ? double.tryParse(suppData['rate']) ?? 0.0
-                  : suppData['rate'] ?? 0.0,
+              rate: suppData['rate'] is double
+                  ? suppData['rate']
+                  : double.tryParse(suppData['rate'].toString()) ?? 0.0,
             ));
           });
         }

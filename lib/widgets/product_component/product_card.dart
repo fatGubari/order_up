@@ -37,6 +37,13 @@ class ProductCard extends StatelessWidget {
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                      return Icon(
+                        Icons.production_quantity_limits,
+                        size: 50,
+                      );
+                    },
                   ),
                 ),
                 Positioned(
