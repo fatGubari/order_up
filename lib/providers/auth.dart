@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:order_up/models/profile_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -110,10 +111,7 @@ class Auth with ChangeNotifier {
               id: restData.key,
               name: restData.value['name'],
               email: email,
-              location: restData.value['location'] != null &&
-                      restData.value['location'] is Map<String, dynamic>
-                  ? ProfileLocation.fromMap(restData.value['location'])
-                  : null,
+              location: ProfileLocation.fromMap(restData.value['location']),
               phoneNumber: restData.value['phoneNumber'],
               image: restData.value['image'],
               password: password,
@@ -148,10 +146,7 @@ class Auth with ChangeNotifier {
               id: suppData.key,
               name: suppData.value['name'],
               email: email,
-              location: suppData.value['location'] != null &&
-                      suppData.value['location'] is! String
-                  ? ProfileLocation.fromMap(suppData.value['location'])
-                  : null,
+              location: ProfileLocation.fromMap(suppData.value['location']),
               phoneNumber: suppData.value['phoneNumber'],
               image: suppData.value['image'],
               password: password,
@@ -280,12 +275,7 @@ class Auth with ChangeNotifier {
         'name': newName,
         'email': newEmail,
         'phoneNumber': newPhoneNumber,
-        'location': newLocation != null
-            ? {
-                'latitude': newLocation.latitude,
-                'longitude': newLocation.longitude
-              }
-            : null,
+        'location': newLocation?.toMap(),
         'image': newImage ?? profileData!.image,
         'password': profileData!.password
       };
@@ -294,12 +284,7 @@ class Auth with ChangeNotifier {
         'name': newName,
         'email': newEmail,
         'phoneNumber': newPhoneNumber,
-        'location': newLocation != null
-            ? {
-                'latitude': newLocation.latitude,
-                'longitude': newLocation.longitude
-              }
-            : null,
+        'location': newLocation?.toMap(),
         'image': newImage ?? profileData!.image,
         'password': profileData!.password,
         'rate': profileData!.rate,
@@ -360,7 +345,7 @@ class Auth with ChangeNotifier {
         'name': profileData!.name,
         'email': profileData!.email,
         'phoneNumber': profileData!.phoneNumber,
-        'location': profileData!.location,
+        'location': profileData!.location?.toMap(),
         'image': profileData!.image,
         'password': newPassword
       };
@@ -369,7 +354,7 @@ class Auth with ChangeNotifier {
         'name': profileData!.name,
         'email': profileData!.email,
         'phoneNumber': profileData!.phoneNumber,
-        'location': profileData!.location,
+        'location': profileData!.location?.toMap(),
         'image': profileData!.image,
         'password': newPassword,
         'rate': profileData!.rate,

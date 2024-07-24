@@ -7,9 +7,19 @@ class ProfileLocation {
     required this.longitude,
   });
 
-  factory ProfileLocation.fromMap(Map<String, dynamic> map) {
+  factory ProfileLocation.fromMap(dynamic data) {
+    if (data == null || data is String) {
+      return ProfileLocation(latitude: 0, longitude: 0);
+    }
+
+    Map<String, dynamic> map = data as Map<String, dynamic>;
+
     return ProfileLocation(
         latitude: map["latitude"], longitude: map["longitude"]);
+  }
+
+  Map<String, double> toMap() {
+    return {'latitude': latitude, 'longitude': longitude};
   }
 
   @override
