@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -77,7 +78,8 @@ class Auth with ChangeNotifier {
         'token': _token,
         'userId': _userId,
         'expiryDate': _expiryDate?.toIso8601String(),
-        // 'email': email,
+        'email': email,
+        'password': password,
       });
       await prefs.setString('userData', userData);
     } catch (e) {
@@ -183,8 +185,12 @@ class Auth with ChangeNotifier {
     _userId = extractedUserData['userId'] as String;
     _expiryDate = expiryDate;
 
-    await _checkUserType(
-        extractedUserData['email'], extractedUserData['password']);
+    try {
+      await _checkUserType(
+          extractedUserData['email'], extractedUserData['password']);
+    } catch (error, stackTrace) {
+      log(error.toString(), stackTrace: stackTrace);
+    }
 
     // // Adding a delay to ensure the user type is set correctly
     // await Future.delayed(Duration(milliseconds: 500));
@@ -194,7 +200,6 @@ class Auth with ChangeNotifier {
     }
 
     notifyListeners();
-    _autoLogout();
     return true;
   }
 
