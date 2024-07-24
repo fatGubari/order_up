@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:order_up/models/profile_data.dart';
 
 class ChangeLocation extends StatefulWidget {
-  final String selectedLocationMap;
+  final ProfileLocation? selectedLocationMap;
+  final void Function(double, double) setLocation;
+
   const ChangeLocation({
     super.key,
     required this.selectedLocationMap,
+    required this.setLocation,
   });
 
   @override
@@ -13,7 +17,7 @@ class ChangeLocation extends StatefulWidget {
 }
 
 class _ChangeLocationState extends State<ChangeLocation> {
-  String? _currentLocation;
+  ProfileLocation? _currentLocation;
 
   @override
   void initState() {
@@ -26,25 +30,21 @@ class _ChangeLocationState extends State<ChangeLocation> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Row(
           children: [
             Expanded(
               child: TextField(
                 readOnly: true,
-                onTap: () {
-                  _pickLocation(context);
-                },
+                onTap: _pickLocation,
                 decoration: InputDecoration(
-                  hintText: _currentLocation ?? 'Location',
+                  hintText: _currentLocation?.toString() ?? 'Location',
                 ),
               ),
             ),
             IconButton(
-              onPressed: () {
-                _pickLocation(context);
-              },
-              icon: Icon(Icons.location_on),
+              onPressed: _pickLocation,
+              icon: const Icon(Icons.location_on),
               color: Colors.blue,
             ),
           ],
@@ -53,19 +53,14 @@ class _ChangeLocationState extends State<ChangeLocation> {
     );
   }
 
-  Future<void> _pickLocation(BuildContext context) async {
+  void _pickLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
     // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Location services are disabled.'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      _showSnackBar('Location services are disabled.');
       return;
     }
 
@@ -74,39 +69,45 @@ class _ChangeLocationState extends State<ChangeLocation> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Location permissions are denied'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+        _showSnackBar('Location permissions are denied');
         return;
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Location permissions are permanently denied, we cannot request permissions.'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      _showSnackBar(
+          'Location permissions are permanently denied, we cannot request permissions.');
       return;
     }
 
     // Fetch the current location
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
     setState(() {
-      _currentLocation = '${position.latitude}, ${position.longitude}';
+      _currentLocation = ProfileLocation(
+          latitude: position.latitude, longitude: position.longitude);
     });
 
     // Here you can save the location to Firebase Realtime Database
-    _saveLocationToFirebase(position.latitude, position.longitude);
+    widget.setLocation(position.latitude, position.longitude);
   }
 
-  void _saveLocationToFirebase(double latitude, double longitude) {
-    // Implement the logic to save the location to Firebase Realtime Database
-    // Use the latitude and longitude values to save the location
-    // Example: databaseRef.child('users').child(userId).update({'location': 'latitude, longitude'});
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
+
+  // void setLocation(double latitude, double longitude) {
+  //   log("Latitude: $latitude");
+  //   log("Longitude: $longitude");
+
+  //   // Implement the logic to save the location to Firebase Realtime Database
+  //   // Use the latitude and longitude values to save the location
+  //   // Example: databaseRef.child('users').child(userId).update({'location': 'latitude, longitude'});
+  // }
 }

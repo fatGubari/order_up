@@ -110,7 +110,10 @@ class Auth with ChangeNotifier {
               id: restData.key,
               name: restData.value['name'],
               email: email,
-              location: restData.value['location'],
+              location: restData.value['location'] != null &&
+                      restData.value['location'] is Map<String, dynamic>
+                  ? ProfileLocation.fromMap(restData.value['location'])
+                  : null,
               phoneNumber: restData.value['phoneNumber'],
               image: restData.value['image'],
               password: password,
@@ -145,7 +148,10 @@ class Auth with ChangeNotifier {
               id: suppData.key,
               name: suppData.value['name'],
               email: email,
-              location: suppData.value['location'],
+              location: suppData.value['location'] != null &&
+                      suppData.value['location'] is! String
+                  ? ProfileLocation.fromMap(suppData.value['location'])
+                  : null,
               phoneNumber: suppData.value['phoneNumber'],
               image: suppData.value['image'],
               password: password,
@@ -253,6 +259,7 @@ class Auth with ChangeNotifier {
     required String newName,
     required String newEmail,
     required String newPhoneNumber,
+    required ProfileLocation? newLocation,
     required String? newImage,
     required String? userType,
   }) async {
@@ -273,7 +280,12 @@ class Auth with ChangeNotifier {
         'name': newName,
         'email': newEmail,
         'phoneNumber': newPhoneNumber,
-        'location': profileData!.location,
+        'location': newLocation != null
+            ? {
+                'latitude': newLocation.latitude,
+                'longitude': newLocation.longitude
+              }
+            : null,
         'image': newImage ?? profileData!.image,
         'password': profileData!.password
       };
@@ -282,7 +294,12 @@ class Auth with ChangeNotifier {
         'name': newName,
         'email': newEmail,
         'phoneNumber': newPhoneNumber,
-        'location': profileData!.location,
+        'location': newLocation != null
+            ? {
+                'latitude': newLocation.latitude,
+                'longitude': newLocation.longitude
+              }
+            : null,
         'image': newImage ?? profileData!.image,
         'password': profileData!.password,
         'rate': profileData!.rate,
@@ -304,7 +321,7 @@ class Auth with ChangeNotifier {
         email: newEmail,
         password: profileData?.password ?? '',
         phoneNumber: newPhoneNumber,
-        location: profileData?.location ?? '',
+        location: newLocation,
       );
 
       notifyListeners();
@@ -374,7 +391,7 @@ class Auth with ChangeNotifier {
         email: profileData?.email ?? '',
         password: newPassword,
         phoneNumber: profileData?.phoneNumber ?? '',
-        location: profileData?.location ?? '',
+        location: profileData?.location,
       );
 
       notifyListeners();

@@ -62,12 +62,12 @@ class _SupplierHomepageState extends State<SupplierHomepage> {
           ElevatedButton(
             onPressed: () =>
                 Navigator.of(context).pushNamed(InprogressOrders.routeName),
-            child: Text('View Orders'),
             style: ButtonStyle(
               backgroundColor:
                   WidgetStatePropertyAll(Theme.of(context).iconTheme.color),
               foregroundColor: WidgetStatePropertyAll(Colors.black),
             ),
+            child: Text('View Orders'),
           )
         ],
       ),

@@ -100,11 +100,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             ),
             ElevatedButton(
               onPressed: _submit,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-              ),
+                 style: ButtonStyle(
+              backgroundColor:
+                  WidgetStatePropertyAll(Theme.of(context).iconTheme.color),
+              foregroundColor: WidgetStatePropertyAll(Colors.black),
+            ),
               child: Text(
-                "Send Code",
+                "confirm",
                 style: TextStyle(
                   color: Color.fromARGB(255, 9, 8, 8),
                   fontWeight: FontWeight.bold,

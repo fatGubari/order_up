@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:order_up/models/profile_data.dart';
 import 'package:order_up/providers/auth.dart';
 import 'package:order_up/widgets/profile_component/change_location.dart';
 import 'package:provider/provider.dart';
@@ -27,21 +28,21 @@ class EditProfile extends StatefulWidget {
 class EditProfileState extends State<EditProfile> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
+  // final TextEditingController locationController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
-  String selectedLocation = 'New York, USA';
-  LatLng? selectedLocationLatLng;
+  ProfileLocation? selectedLocation;
+  // LatLng? selectedLocationLatLng;
   File? _storedImage;
 
   @override
   void initState() {
     super.initState();
-    nameController.text =
-        Provider.of<Auth>(context, listen: false).profileData!.name;
-    emailController.text =
-        Provider.of<Auth>(context, listen: false).profileData!.email;
-    phoneNumberController.text =
-        Provider.of<Auth>(context, listen: false).profileData!.phoneNumber;
+    ProfileData profileData =
+        Provider.of<Auth>(context, listen: false).profileData as ProfileData;
+    nameController.text = profileData.name;
+    emailController.text = profileData.email;
+    phoneNumberController.text = profileData.phoneNumber;
+    selectedLocation = profileData.location;
   }
 
   Future<void> _saveChanges(BuildContext context) async {
@@ -85,12 +86,12 @@ class EditProfileState extends State<EditProfile> {
     }
 
     // Update user profile data in your Auth provider or backend service
-
     final String? userType = authProvider.userType;
     authProvider.updateUserProfile(
       newName: newName,
       newEmail: newEmail,
       newPhoneNumber: newPhoneNumber,
+      newLocation: selectedLocation,
       userType: userType,
       newImage: newImage,
     );
@@ -136,6 +137,7 @@ class EditProfileState extends State<EditProfile> {
             SizedBox(height: 10),
             ChangeLocation(
               selectedLocationMap: selectedLocation,
+              setLocation: _setLocation,
             ),
           ],
         ),
@@ -151,6 +153,13 @@ class EditProfileState extends State<EditProfile> {
         ),
       ],
     );
+  }
+
+  void _setLocation(double latitude, double longitude) {
+    setState(() {
+      selectedLocation =
+          ProfileLocation(latitude: latitude, longitude: longitude);
+    });
   }
 
   void _pickImage() async {

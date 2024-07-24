@@ -1,3 +1,22 @@
+class ProfileLocation {
+  double latitude;
+  double longitude;
+
+  ProfileLocation({
+    required this.latitude,
+    required this.longitude,
+  });
+
+  factory ProfileLocation.fromMap(Map<String, dynamic> map) {
+    return ProfileLocation(
+        latitude: map["latitude"], longitude: map["longitude"]);
+  }
+
+  @override
+  String toString() {
+    return '$latitude, $longitude';
+  }
+}
 
 class ProfileData {
   String id;
@@ -6,7 +25,7 @@ class ProfileData {
   String email;
   String password;
   String phoneNumber;
-  String location;
+  ProfileLocation? location;
   String? rate;
   String? category;
 
