@@ -30,7 +30,7 @@ class EditProfileState extends State<EditProfile> {
   final TextEditingController emailController = TextEditingController();
   // final TextEditingController locationController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
-  ProfileLocation? selectedLocation;
+  String? selectedLocation;
   // LatLng? selectedLocationLatLng;
   File? _storedImage;
 
@@ -58,7 +58,7 @@ class EditProfileState extends State<EditProfile> {
         final ref = FirebaseStorage.instance
             .ref()
             .child('users_images')
-            .child(authProvider.userId + '.jpg');
+            .child('${authProvider.userId}.jpg');
         await ref.putFile(_storedImage!).whenComplete(() => print('completed'));
         newImage = await ref.getDownloadURL();
       } else {
@@ -66,7 +66,7 @@ class EditProfileState extends State<EditProfile> {
       }
       //
     } catch (e) {
-      print('addUser error: ${e}');
+      print('addUser error: $e');
     }
 
     if (!_isEmailValid(newEmail)) {
@@ -155,10 +155,9 @@ class EditProfileState extends State<EditProfile> {
     );
   }
 
-  void _setLocation(double latitude, double longitude) {
+  void _setLocation(String location) {
     setState(() {
-      selectedLocation =
-          ProfileLocation(latitude: latitude, longitude: longitude);
+      selectedLocation = location;
     });
   }
 

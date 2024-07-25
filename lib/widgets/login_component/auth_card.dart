@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:order_up/providers/auth.dart';
 import 'package:order_up/widgets/login_component/forget_password.dart';
@@ -75,9 +76,11 @@ class _AuthCardState extends State<AuthCard> {
       _showErrorDialog(error.toString());
       // print(error.toString());
     }
-    setState(() {
-      _isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void _callUs() async {

@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:order_up/models/profile_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -76,7 +78,8 @@ class Auth with ChangeNotifier {
         'token': _token,
         'userId': _userId,
         'expiryDate': _expiryDate?.toIso8601String(),
-        // 'email': email,
+        'email': email,
+        'password': password,
       });
       await prefs.setString('userData', userData);
     } catch (e) {
@@ -110,10 +113,7 @@ class Auth with ChangeNotifier {
               id: restData.key,
               name: restData.value['name'],
               email: email,
-              location: restData.value['location'] != null &&
-                      restData.value['location'] is Map<String, dynamic>
-                  ? ProfileLocation.fromMap(restData.value['location'])
-                  : null,
+              location: restData.value['location'].toString(),
               phoneNumber: restData.value['phoneNumber'],
               image: restData.value['image'],
               password: password,
@@ -148,10 +148,7 @@ class Auth with ChangeNotifier {
               id: suppData.key,
               name: suppData.value['name'],
               email: email,
-              location: suppData.value['location'] != null &&
-                      suppData.value['location'] is! String
-                  ? ProfileLocation.fromMap(suppData.value['location'])
-                  : null,
+              location: suppData.value['location'].toString(),
               phoneNumber: suppData.value['phoneNumber'],
               image: suppData.value['image'],
               password: password,
@@ -188,8 +185,12 @@ class Auth with ChangeNotifier {
     _userId = extractedUserData['userId'] as String;
     _expiryDate = expiryDate;
 
-    await _checkUserType(
-        extractedUserData['email'], extractedUserData['password']);
+    try {
+      await _checkUserType(
+          extractedUserData['email'], extractedUserData['password']);
+    } catch (error, stackTrace) {
+      log(error.toString(), stackTrace: stackTrace);
+    }
 
     // // Adding a delay to ensure the user type is set correctly
     // await Future.delayed(Duration(milliseconds: 500));
@@ -199,7 +200,6 @@ class Auth with ChangeNotifier {
     }
 
     notifyListeners();
-    _autoLogout();
     return true;
   }
 
@@ -259,7 +259,7 @@ class Auth with ChangeNotifier {
     required String newName,
     required String newEmail,
     required String newPhoneNumber,
-    required ProfileLocation? newLocation,
+    required String? newLocation,
     required String? newImage,
     required String? userType,
   }) async {
@@ -280,12 +280,7 @@ class Auth with ChangeNotifier {
         'name': newName,
         'email': newEmail,
         'phoneNumber': newPhoneNumber,
-        'location': newLocation != null
-            ? {
-                'latitude': newLocation.latitude,
-                'longitude': newLocation.longitude
-              }
-            : null,
+        'location': newLocation,
         'image': newImage ?? profileData!.image,
         'password': profileData!.password
       };
@@ -294,12 +289,7 @@ class Auth with ChangeNotifier {
         'name': newName,
         'email': newEmail,
         'phoneNumber': newPhoneNumber,
-        'location': newLocation != null
-            ? {
-                'latitude': newLocation.latitude,
-                'longitude': newLocation.longitude
-              }
-            : null,
+        'location': newLocation,
         'image': newImage ?? profileData!.image,
         'password': profileData!.password,
         'rate': profileData!.rate,

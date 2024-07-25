@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_up/items/side_bar.dart';
 import 'package:order_up/items/side_bar_supplier.dart';
-import 'package:order_up/models/profile_data.dart';
 import 'package:order_up/providers/auth.dart';
 import 'package:order_up/widgets/profile_component/change_password.dart';
 import 'package:order_up/widgets/profile_component/edit_profile.dart';
@@ -18,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
     // Get user information from Auth provider
     final String? name = authProvider?.name;
     final String? email = authProvider?.email;
-    final ProfileLocation? location = authProvider?.location;
+    final String? location = authProvider?.location;
     final String? imageURL = authProvider?.image;
     final String? phoneNumber = authProvider?.phoneNumber;
     final String? userType = authProviderUserType.userType;
