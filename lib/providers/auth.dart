@@ -113,7 +113,7 @@ class Auth with ChangeNotifier {
               id: restData.key,
               name: restData.value['name'],
               email: email,
-              location: ProfileLocation.fromMap(restData.value['location']),
+              location: restData.value['location'].toString(),
               phoneNumber: restData.value['phoneNumber'],
               image: restData.value['image'],
               password: password,
@@ -148,7 +148,7 @@ class Auth with ChangeNotifier {
               id: suppData.key,
               name: suppData.value['name'],
               email: email,
-              location: ProfileLocation.fromMap(suppData.value['location']),
+              location: suppData.value['location'].toString(),
               phoneNumber: suppData.value['phoneNumber'],
               image: suppData.value['image'],
               password: password,
@@ -259,7 +259,7 @@ class Auth with ChangeNotifier {
     required String newName,
     required String newEmail,
     required String newPhoneNumber,
-    required ProfileLocation? newLocation,
+    required String? newLocation,
     required String? newImage,
     required String? userType,
   }) async {
@@ -280,7 +280,7 @@ class Auth with ChangeNotifier {
         'name': newName,
         'email': newEmail,
         'phoneNumber': newPhoneNumber,
-        'location': newLocation?.toMap(),
+        'location': newLocation,
         'image': newImage ?? profileData!.image,
         'password': profileData!.password
       };
@@ -289,7 +289,7 @@ class Auth with ChangeNotifier {
         'name': newName,
         'email': newEmail,
         'phoneNumber': newPhoneNumber,
-        'location': newLocation?.toMap(),
+        'location': newLocation,
         'image': newImage ?? profileData!.image,
         'password': profileData!.password,
         'rate': profileData!.rate,
@@ -350,7 +350,7 @@ class Auth with ChangeNotifier {
         'name': profileData!.name,
         'email': profileData!.email,
         'phoneNumber': profileData!.phoneNumber,
-        'location': profileData!.location?.toMap(),
+        'location': profileData!.location,
         'image': profileData!.image,
         'password': newPassword
       };
@@ -359,7 +359,7 @@ class Auth with ChangeNotifier {
         'name': profileData!.name,
         'email': profileData!.email,
         'phoneNumber': profileData!.phoneNumber,
-        'location': profileData!.location?.toMap(),
+        'location': profileData!.location,
         'image': profileData!.image,
         'password': newPassword,
         'rate': profileData!.rate,
