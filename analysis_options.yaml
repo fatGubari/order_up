@@ -10,13 +10,14 @@
 analyzer:
   errors:
     avoid_function_literals_in_foreach_calls: ignore
+    avoid_print: ignore
     await_only_futures: ignore
     constant_identifier_names: ignore
     deprecated_member_use: ignore
     file_names: ignore
     library_private_types_in_public_api: ignore
     no_leading_underscores_for_local_identifiers: ignore
-    unnecessary_cas ignoret: ignore
+    unnecessary_brace_in_string_interps: ignore
     unnecessary_cast: ignore
     unnecessary_null_comparison: ignore
     unnecessary_string_interpolations: ignore
