@@ -22,13 +22,13 @@ class Suppliers with ChangeNotifier {
           extractedData.forEach((suppId, suppData) {
             loadedSupplier.add(Supplier(
               id: suppId,
-              name: suppData['name'],
-              location: suppData['location'],
-              image: suppData['image'],
-              email: suppData['email'],
-              password: suppData['password'],
-              phoneNumber: suppData['phoneNumber'],
-              category: suppData['category'],
+                name: suppData['name'] ?? '', 
+              location: suppData['location'] ?? '',
+              image: suppData['image'] ?? '',
+              email: suppData['email'] ?? '',
+              password: suppData['password'] ?? '',
+              phoneNumber: suppData['phoneNumber'] ?? '',
+              category: suppData['category'] ?? '',
               rate: suppData['rate'] is double
                   ? suppData['rate']
                   : double.tryParse(suppData['rate'].toString()) ?? 0.0,

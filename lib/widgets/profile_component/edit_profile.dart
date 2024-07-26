@@ -28,10 +28,8 @@ class EditProfile extends StatefulWidget {
 class EditProfileState extends State<EditProfile> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  // final TextEditingController locationController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   String? selectedLocation;
-  // LatLng? selectedLocationLatLng;
   File? _storedImage;
 
   @override
@@ -45,15 +43,13 @@ class EditProfileState extends State<EditProfile> {
     selectedLocation = profileData.location;
   }
 
-  Future<void> _saveChanges(BuildContext context) async {
-    // final String location = locationController.text;
+  Future _saveChanges(BuildContext context) async {
     final String newName = nameController.text.trim();
     final String newEmail = emailController.text.trim();
     final String newPhoneNumber = phoneNumberController.text.trim();
     String? newImage = imageURL;
     final authProvider = Provider.of<Auth>(context, listen: false);
     try {
-      // final String uid = FirebaseAuth.instance.currentUser!.uid;
       if (_storedImage != null) {
         final ref = FirebaseStorage.instance
             .ref()
@@ -61,10 +57,7 @@ class EditProfileState extends State<EditProfile> {
             .child('${authProvider.userId}.jpg');
         await ref.putFile(_storedImage!).whenComplete(() => print('completed'));
         newImage = await ref.getDownloadURL();
-      } else {
-        // newImage = appUser.imageUrl;
-      }
-      //
+      } 
     } catch (e) {
       print('addUser error: $e');
     }
@@ -111,7 +104,6 @@ class EditProfileState extends State<EditProfile> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // ChangeImage(),
             _imageInput(),
             SizedBox(height: 10),
             TextField(

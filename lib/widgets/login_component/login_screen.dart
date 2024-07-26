@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 // import 'package:order_up/widgets/home_component/resturant_mainpage_screen.dart';
 import 'package:order_up/widgets/login_component/auth_card.dart';
